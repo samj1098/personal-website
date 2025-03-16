@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Norm vs. Mut Test</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css">
+</head>
+<body class="bg-light">
+
+    <!-- Offcanvas Navbar (Same as other pages) -->
+    <nav class="navbar bg-body-tertiary fixed-top">
+        <div class="container-fluid">
+            <!-- Change the brand name here -->
+            <a class="navbar-brand" href="#">My Portfolio</a>
+    
+            <!-- Toggle Button for Mobile -->
+            <button class="navbar-toggler" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasNavbar" aria-controls="offcanvasNavbar" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+    
+            <!-- Offcanvas Menu -->
+            <div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvasNavbar" aria-labelledby="offcanvasNavbarLabel">
+                <div class="offcanvas-header">
+                    <h5 class="offcanvas-title" id="offcanvasNavbarLabel">Menu</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+                </div>
+    
+                <div class="offcanvas-body">
+                    <ul class="navbar-nav justify-content-end flex-grow-1 pe-3">
+                        <!-- Updated Navigation Links -->
+                        <li class="nav-item">
+                            <a class="nav-link active" href="/">Home</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="/projects">Portfolio</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="/about">About</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="/about">Contact</a>
+                        </li>
+    
+                        <!-- New Socials Dropdown -->
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                Socials
+                            </a>
+                            <ul class="dropdown-menu">
+                                <li><a class="dropdown-item" href="https://github.com/yourgithub" target="_blank">GitHub</a></li>
+                                <li><a class="dropdown-item" href="https://linkedin.com/in/yourlinkedin" target="_blank">LinkedIn</a></li>
+                                <li><a class="dropdown-item" href="https://twitter.com/yourtwitter" target="_blank">Twitter</a></li>
+                            </ul>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <div class="container mt-5">
+        <h2 class="mb-4">Norm vs. Mut Test</h2>
+
+        <!-- Test Case Input Form -->
+        <form id="test-form">
+            <div id="test-cases">
+                <!-- Test case rows will be added here dynamically -->
+            </div>
+            <button type="button" class="btn btn-primary mt-3" onclick="addTestCase()">Add Test Case</button>
+            <button type="submit" class="btn btn-success mt-3">Submit</button>
+        </form>
+
+        <!-- Results Section -->
+        <div class="row mt-5">
+            <!-- Right Column: User-Friendly Table -->
+            <div class="col-md-6">
+                <h3>Formatted Results</h3>
+                <table class="table table-striped">
+                    <thead>
+                        <tr>
+                            <th>Sample ID</th>
+                            <th>Genotype</th>
+                        </tr>
+                    </thead>
+                    <tbody id="results-table">
+                        <!-- Table rows will be added dynamically -->
+                    </tbody>
+                </table>
+            </div>
+                <!-- Left Column: JSON Output -->
+            <div class="col-md-6">
+                <h3>Raw JSON Output</h3>
+                <pre id="results-json" class="p-3 border bg-light"></pre>
+            </div>
+        
+            
+        </div>
+
+    </div>
+
+    <script>
+    document.addEventListener("DOMContentLoaded", function () {
+        addTestCase(); // Automatically add an initial test case when the page loads
+    });
+    
+    // Function to add a new test case input row
+    function addTestCase() {
+        let testCasesDiv = document.getElementById("test-cases");
+        let newRow = document.createElement("div");
+        newRow.classList.add("input-group", "mb-2");
+    
+        // Dropdown for NORM / MUT
+        let select = document.createElement("select");
+        select.classList.add("form-select");
+        select.innerHTML = `
+            <option value="NORM">NORM</option>
+            <option value="MUT">MUT</option>
+        `;
+    
+        // Input field for sample numbers
+        let input = document.createElement("input");
+        input.type = "text";
+        input.classList.add("form-control");
+        input.placeholder = "Enter sample numbers (comma separated)";
+    
+        // Remove button
+        let removeBtn = document.createElement("button");
+        removeBtn.classList.add("btn", "btn-danger");
+        removeBtn.innerText = "X";
+        removeBtn.onclick = function () {
+            testCasesDiv.removeChild(newRow);
+        };
+    
+        newRow.appendChild(select);
+        newRow.appendChild(input);
+        newRow.appendChild(removeBtn);
+        testCasesDiv.appendChild(newRow);
+    }
+    
+    // Handle form submission
+    document.getElementById("test-form").addEventListener("submit", function (e) {
+        e.preventDefault();
+        
+        let testCases = [];
+        let inputs = document.querySelectorAll("#test-cases .input-group");
+        
+        inputs.forEach(row => {
+            let type = row.querySelector("select").value;
+            let samples = row.querySelector("input").value.split(",").map(s => s.trim()).filter(s => s !== "");
+            
+            if (samples.length > 0) {
+                testCases.push({ type, samples });
+            }
+        });
+    
+        // Send data to the backend
+        fetch("/norm-mut-test", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ test_cases: testCases })
+        })
+        .then(response => response.json())
+        .then(data => {
+            // Update JSON Output
+            document.getElementById("results-json").innerText = JSON.stringify(data, null, 2);
+    
+            // Clear and Populate Table
+            let tableBody = document.getElementById("results-table");
+            tableBody.innerHTML = "";  // Clear previous results
+    
+            data.forEach(result => {
+                let row = `<tr>
+                    <td>${result.sample_id}</td>
+                    <td>${result.genotype}</td>
+                </tr>`;
+                tableBody.innerHTML += row;
+            });
+        })
+        .catch(error => console.error("Error:", error));
+    });
+    </script>
+
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
