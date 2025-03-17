@@ -70,3 +70,27 @@ document.addEventListener("DOMContentLoaded", function () {
         }
     }
 });
+
+document.addEventListener("DOMContentLoaded", function () {
+    document.querySelectorAll(".toggle-details").forEach(button => {
+        let target = document.querySelector(button.getAttribute("data-bs-target"));
+        
+        // Listen for when the collapse is expanded
+        target.addEventListener("shown.bs.collapse", function () {
+            button.innerHTML = "Read Less ▲";
+        });
+
+        // Listen for when the collapse is collapsed
+        target.addEventListener("hidden.bs.collapse", function () {
+            button.innerHTML = "Read More ▼";
+        });
+
+        button.addEventListener("click", function () {
+            let bsCollapse = new bootstrap.Collapse(target, { toggle: true });
+            bsCollapse.toggle(); // Manually toggles the collapse
+        });
+    });
+});
+
+    
+
