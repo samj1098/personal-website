@@ -4,10 +4,10 @@ from projects_code.norm_mut_logic import run_norm_mut_test
 application = Flask(__name__)
 
 def render_page(template):
-    """Helper function to serve full page or just the content for AJAX requests"""
+    """Serve full page normally, or just content for AJAX requests"""
     if request.headers.get("X-Requested-With") == "XMLHttpRequest":
-        return render_template(template)  # Only return content for AJAX
-    return render_template("base.html", content=render_template(template))  # Return full page
+        return render_template(template)  # ✅ AJAX loads only the content
+    return render_template(template)  # ✅ Full page load uses base.html automatically
 
 @application.route('/')
 def home():
