@@ -3,121 +3,124 @@
 {% block title %}Home{% endblock %}
 
 {% block content %}
-    <div class="container mt-5 pt-5">
-        <h1 class="text-center">My Coding Projects</h1>
+<div class="container mt-5 pt-5">
+    <h1 class="text-center">My Coding Projects</h1>
 
-        <!-- Norm vs. Mut Test Project -->
-        <div class="card mt-4">
-            <div class="card-body">
-                <h5 class="card-title">Genotype Classification Algorithm</h5>
-                <p class="card-text">
-                    💡 A Python-based algorithm that classifies genetic test samples as "NORM" (normal) or "MUT" (mutant) based on multiplexing test results.
-                </p>
-        
-                <h6>🔍 Features</h6>
+    <!-- Norm vs. Mut Test Project -->
+    <div class="card mt-4 project-card">
+        <div class="card-body">
+            <h5 class="card-title">Genotype Classification Algorithm</h5>
+            <p class="card-text">
+                💡 A Python-based algorithm that classifies genetic test samples as "NORM" (normal) or "MUT" based on multiplexing test results.
+            </p>
+
+            <h6>🔍 Features</h6>
+            <ul>
+                <li>✅ Classifies sample IDs as "NORM" or "MUT"</li>
+                <li>✅ Detects contradictions and returns <b>"INCONSISTENT"</b></li>
+                <li>✅ Identifies cases where classification is impossible (<b>"NONUNIQUE"</b>)</li>
+            </ul>
+
+            <!-- Collapsible Section -->
+            <button class="btn btn-outline-primary btn-sm" type="button" data-bs-toggle="collapse" data-bs-target="#moreDetails" aria-expanded="false" aria-controls="moreDetails">
+                Read More ▼
+            </button>
+
+            <div class="collapse mt-3" id="moreDetails">
+                <h6>🛠 How It Works</h6>
+
+                <h6>1️⃣ Enter Test Data</h6>
+                <p>Each test consists of a genotype (NORM or MUT) followed by sample IDs.</p>
+                <pre class="bg-light p-2 rounded">
+3
+NORM,100,110
+MUT,110,12
+NORM,200,300
+                </pre>
+
+                <h6>2️⃣ How the Algorithm Determines "MUT" Samples</h6>
                 <ul>
-                    <li>✅ Classifies sample IDs as "NORM" or "MUT"</li>
-                    <li>✅ Detects contradictions and returns <b>"INCONSISTENT"</b></li>
-                    <li>✅ Identifies cases where classification is impossible (<b>"NONUNIQUE"</b>)</li>
+                    <li>If a test case is <b>"NORM"</b>, all listed samples are immediately marked "NORM".</li>
+                    <li>If a test case is <b>"MUT"</b> and some sample IDs are already "NORM", the remaining unknown sample must be "MUT".</li>
+                    <li>If multiple "MUT" test cases contain only unknown samples, the algorithm returns <b>"NONUNIQUE"</b>.</li>
                 </ul>
-        
-                <!-- Collapsible Section -->
-                <button class="btn btn-outline-primary btn-sm" type="button" data-bs-toggle="collapse" data-bs-target="#moreDetails" aria-expanded="false" aria-controls="moreDetails">
-                    Read More ▼
-                </button>
-        
-                <div class="collapse mt-3" id="moreDetails">
-                    <h6>🛠 How It Works</h6>
-        
-                    <h6>1️⃣ Enter Test Data</h6>
-                    <p>Each test consists of a genotype (NORM or MUT) followed by sample IDs.</p>
-                    <pre class="bg-light p-2 rounded">
-        3
-        NORM,100,110
-        MUT,110,12
-        NORM,200,300
-                    </pre>
-        
-                    <h6>2️⃣ How the Algorithm Determines "MUT" Samples</h6>
-                    <ul>
-                        <li>If a test case is <b>"NORM"</b>, all listed samples are immediately marked "NORM".</li>
-                        <li>If a test case is <b>"MUT"</b> and some sample IDs are already "NORM", the remaining unknown sample must be "MUT".</li>
-                        <li>If multiple "MUT" test cases contain only unknown samples, the algorithm returns <b>"NONUNIQUE"</b>.</li>
-                    </ul>
-        
-                    <h6>3️⃣ Handling Edge Cases</h6>
-                    <ul>
-                        <li>⚠️ <b>"INCONSISTENT"</b> is returned if a sample is marked "NORM" in one test but must be "MUT" in another.</li>
-                        <li>⚠️ <b>"NONUNIQUE"</b> is returned when there isn’t enough information to uniquely determine a "MUT" sample.</li>
-                    </ul>
-        
-                    <h6>📌 Example Outputs</h6>
-        
-                    <h6>✅ Case Where "MUT" Can Be Determined</h6>
-                    <pre class="bg-light p-2 rounded">
-        Input:
-        3
-        NORM,100,110
-        MUT,110,12
-        NORM,200,300
-        
-        Output:
-        Sample ID    Genotype
-        12          MUT
-        100         NORM
-        110         NORM
-        200         NORM
-        300         NORM
-                    </pre>
-        
-                    <h6>⚠️ Case That Results in "INCONSISTENT"</h6>
-                    <pre class="bg-light p-2 rounded">
-        Input:
-        4
-        NORM,0,1
-        MUT,1,2
-        NORM,1,3
-        NORM,2,3
-        
-        Output:
-        INCONSISTENT
-                    </pre>
-        
-                    <h6>⚠️ Case That Results in "NONUNIQUE"</h6>
-                    <pre class="bg-light p-2 rounded">
-        Input:
-        2
-        MUT,1,2
-        MUT,2,3
-        
-        Output:
-        NONUNIQUE
-                    </pre>
-                </div>
-        
-                <div class="d-flex justify-content-between align-items-center mt-3">
-                    <div>
-                        <a href="https://github.com/samj1098/genotype-classification" class="btn btn-outline-dark me-2" target="_blank">View on GitHub</a>
-                        <a href="/norm-mut-test" class="btn btn-primary">Test Project</a>
-                    </div>
-                    <span class="text-muted small">Spring 2025</span>
-                </div>
-            </div>
-        </div>
-        
-        
-        
 
-        <!-- Task Management App -->
-        <div class="card mt-4">
-            <div class="card-body">
-                <h5 class="card-title">Task Management App</h5>
-                <p class="card-text">A full-stack app for managing tasks efficiently...</p>
-                <a href="https://github.com/yourgithub/task-manager" class="btn btn-outline-dark" target="_blank">View on GitHub</a>
-                <a href="/task-manager" class="btn btn-primary">Test Project</a>
-            </div>
-        </div>
+                <h6>3️⃣ Handling Edge Cases</h6>
+                <ul>
+                    <li>⚠️ <b>"INCONSISTENT"</b> is returned if a sample is marked "NORM" in one test but must be "MUT" in another.</li>
+                    <li>⚠️ <b>"NONUNIQUE"</b> is returned when there isn’t enough information to uniquely determine a "MUT" sample.</li>
+                </ul>
 
+                <h6>📌 Example Outputs</h6>
+
+                <h6>✅ Case Where "MUT" Can Be Determined</h6>
+                <pre class="bg-light p-2 rounded">
+Input:
+3
+NORM,100,110
+MUT,110,12
+NORM,200,300
+
+Output:
+Sample ID    Genotype
+12          MUT
+100         NORM
+110         NORM
+200         NORM
+300         NORM
+                </pre>
+
+                <h6>⚠️ Case That Results in "INCONSISTENT"</h6>
+                <pre class="bg-light p-2 rounded">
+Input:
+4
+NORM,0,1
+MUT,1,2
+NORM,1,3
+NORM,2,3
+
+Output:
+INCONSISTENT
+                </pre>
+
+                <h6>⚠️ Case That Results in "NONUNIQUE"</h6>
+                <pre class="bg-light p-2 rounded">
+Input:
+2
+MUT,1,2
+MUT,2,3
+
+Output:
+NONUNIQUE
+                </pre>
+            </div>
+
+            <!-- Buttons (Fixed Layout) -->
+            <div class="d-flex justify-content-between align-items-center mt-3">
+                <div class="project-buttons">
+                    <a href="https://github.com/samj1098/genotype-classification" class="btn btn-outline-dark me-2" target="_blank">View on GitHub</a>
+                    <a href="/norm-mut-test" class="btn btn-primary">Test Project</a>
+                </div>
+                <span class="text-muted small">Spring 2025</span>
+            </div>                
+        </div>
     </div>
 
+    <!-- Task Management App -->
+    <div class="card mt-4 project-card">
+        <div class="card-body">
+            <h5 class="card-title">Task Management App</h5>
+            <p class="card-text">A full-stack app for managing tasks efficiently...</p>
+
+            <!-- Buttons (Fixed Layout) -->
+            <div class="d-flex justify-content-between align-items-center mt-3">
+                <div class="project-buttons">
+                    <a href="https://github.com/yourgithub/task-manager" class="btn btn-outline-dark" target="_blank">View on GitHub</a>
+                    <a href="/task-manager" class="btn btn-primary">Test Project</a>
+                </div>
+                <span class="text-muted small">Spring 2025</span>
+            </div>
+        </div>
+    </div>
+</div>
 {% endblock %}

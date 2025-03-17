@@ -1,14 +1,21 @@
+/* General Styles */
 body {
-    font-family: Arial, sans-serif;
-    text-align: center;
+    font-family: 'SF Pro Display', Arial, sans-serif; /* Apple-like font */
     background-color: #ffffff;
     margin: 0;
     padding: 0;
+    text-align: center;
 }
 
+body.no-scroll {
+    overflow: hidden !important;
+}
+
+/* Navigation Bar */
 nav {
-    background: #333;
+    background: rgba(51, 51, 51, 0.9); /* Slight transparency */
     padding: 10px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
 }
 
 nav a {
@@ -17,28 +24,17 @@ nav a {
     padding: 10px;
 }
 
-.project {
-    background: rgb(255, 255, 255);
-    padding: 15px;
-    margin: 10px auto;
-    width: 50%;
-    box-shadow: 2px 2px 10px gray;
-}
-
+/* Background Animation */
 .absolute {
     position: fixed;
-    top: 0px;
-    left: 0px;
-    width: 100vw;
-    height: 100vh;
+    inset: 0;
     overflow: hidden;
     z-index: -1;
-    inset: 0;
     display: flex;
     justify-content: center;
     gap: 1rem;
     background-color: rgb(212, 250, 237);
-  }
+}
   
   .bg-shape1, .bg-shape2, .bg-shape3 {
     position: absolute;
@@ -47,7 +43,6 @@ nav a {
     filter: blur(90px);
     will-change: transform;
     transition: transform 0.5s ease-out; /* Smoother motion */
-  
     /* Center initially */
     left: 50%;
     top: 50%;
@@ -108,8 +103,10 @@ nav a {
 }
 .btn:hover {
     transform: scale(1.10);
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.15);
 }
 
+/* Featured Projects */
 .featured-projects {
     background: transparent; /* Removes the white background */
     box-shadow: none;
@@ -118,13 +115,43 @@ nav a {
 
 /* Apple-Style Cards */
 .project-card {
+    background: white;
     border-radius: 20px;
-    transition: all 0.3s ease-in-out;
-    margin: 10px 0px;
-}
-.project-card:hover {
-    transform: translateY(-5px);
+    padding: 25px;
     box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+.project-card:hover {
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+}
+
+/* Project Buttons (Aligned Correctly) */
+.project-buttons {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin-top: auto; /* Pushes buttons to the bottom */
+    justify-content: flex-start; /* Keeps buttons left-aligned */
+}
+
+.project-buttons a {
+    flex: 1 1 auto;
+    text-align: center;
+    padding: 10px 15px;
+}
+
+@media (max-width: 767px) {
+    .project-buttons {
+        flex-direction: column;
+        align-items: flex-start; /* Ensures buttons stay left-aligned when stacked */
+    }
+
+    .project-buttons a {
+        width: 100%; /* Makes buttons full-width when stacked */
+    }
 }
 
 /* Tech Stack Container */
@@ -144,7 +171,7 @@ nav a {
 /* Tech Icons Layout */
 .tech-items {
     display: flex;
-    flex-wrap: nowrap; /* Prevents wrapping onto a new row */
+    flex-wrap: wrap; /* Prevents wrapping onto a new row */
     justify-content: center;
     align-items: center;
     gap: 30px; /* Increases space between icons */
@@ -205,12 +232,14 @@ nav a {
 }
 
 /* Shift the Other Icons on Hover */
-.tech-item:hover ~ .tech-item {
-    transform: translateX(40px); /* Pushes right */
+.tech-items:hover .tech-item {
+    transition: transform 0.3s ease-in-out;
 }
-
+.tech-item:hover ~ .tech-item {
+    transform: translateX(40px);
+}
 .tech-item:has(~ .tech-item:hover) {
-    transform: translateX(-40px); /* Pushes left */
+    transform: translateX(-40px);
 }
 
 /* Ensure Icons Remain in a Single Line */
@@ -248,5 +277,33 @@ nav a {
     box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2); /* Adds a subtle shadow */
 }
 
+/* Contact Section */
+.contact .btn {
+    width: 180px;
+    padding: 12px 20px;
+    font-size: 16px;
+}
+
+.contact .d-flex {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    gap: 15px;
+}
+
+/* Mobile Fix for Contact Section */
+@media (max-width: 768px) {
+    .contact .btn {
+        width: 100%;
+        font-size: 14px;
+        padding: 12px;
+    }
+
+    .contact .d-flex {
+        flex-direction: column;
+        gap: 15px;
+    }
+}
 
 

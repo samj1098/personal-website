@@ -29,11 +29,23 @@ document.addEventListener("DOMContentLoaded", function () {
                         offcanvasInstance.hide();
                     }
 
-                    // ✅ Force-remove grey overlay
-                    let backdrop = document.querySelector('.offcanvas-backdrop');
-                    if (backdrop) {
-                        backdrop.remove();  // Manually remove Bootstrap's offcanvas backdrop
-                    }
+                    // ✅ Force Remove Scroll Lock (Fixes "Every Other Click" Issue)
+                    setTimeout(() => {
+                        document.body.style.overflow = "auto"; // Force scrolling to be enabled
+                        document.documentElement.style.overflow = "auto"; // Ensure scrolling is active for the whole page
+                        document.activeElement.blur(); // Remove focus from any active element
+                    }, 100);
+
+                    // ✅ Properly Remove the Grey Backdrop
+                    setTimeout(() => {
+                        let backdrop = document.querySelector('.offcanvas-backdrop');
+                        if (backdrop) {
+                            backdrop.remove();  // Manually remove Bootstrap's offcanvas backdrop
+                        }
+                    }, 300);
+
+                    // ✅ Reinitialize Page-Specific Scripts
+                    reinitializeScripts();
                 })
                 .catch(error => console.error("Error:", error));
         });
@@ -43,4 +55,18 @@ document.addEventListener("DOMContentLoaded", function () {
     window.onpopstate = function () {
         location.reload();
     };
+
+    // ✅ Function to Reinitialize Page-Specific Scripts
+    function reinitializeScripts() {
+        console.log("Reinitializing page scripts...");
+
+        // ✅ Force-enable scrolling
+        document.body.style.overflow = "auto";
+        document.documentElement.style.overflow = "auto";
+
+        // ✅ Reinitialize Tech Stack Flip Animations (if needed)
+        if (typeof initializeTechStack === "function") {
+            initializeTechStack();
+        }
+    }
 });
