@@ -12,7 +12,7 @@
                 <h1 class="fw-bold display-3">Sam Jensen</h1>
                 <p class="lead text-muted">Software Engineer | AWS & Full-Stack Enthusiast</p>
                 <div class="mt-4">
-                    <a href="/resume.pdf" class="btn btn-primary btn-lg rounded-pill px-4">View My Resume</a>
+                  <a href="{{ url_for('static', filename='resume.pdf') }}" class="btn btn-primary btn-lg rounded-pill px-4" target="_blank">View My Resume</a>
                     <a href="/projects" class="btn btn-outline-dark btn-lg rounded-pill px-4">Explore My Work</a>
                 </div>
             </div>
@@ -42,107 +42,74 @@
 <!-- 🔹 TECH STACK (Apple-Style Soft Shadowed Box) -->
 <section class="d-flex justify-content-center py-5">
   <div class="tech-stack text-center">
-    <h2 class="fw-bold">Tech Stack</h2>
-    <div class="d-flex flex-wrap justify-content-center gap-4 mt-3">
-      
-        <div class="tech-item">
-            <div class="tech-flip">
-                <div class="tech-front">
-                    <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/python/python-original.svg" class="tech-icon">
-                </div>
-                <div class="tech-back">
-                    <span>Python</span>
-                </div>
-            </div>
-        </div>
+      <h2 class="fw-bold">Tech Stack</h2>
+      <div class="tech-items">
+          <div class="tech-item">
+              <div class="tech-flip">
+                  <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/python/python-original.svg">
+                  <span class="tech-label">Python</span>
+              </div>
+          </div>
 
-        <div class="tech-item">
-            <div class="tech-flip">
-                <div class="tech-front">
-                    <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/javascript/javascript-original.svg" class="tech-icon">
-                </div>
-                <div class="tech-back">
-                    <span>JavaScript</span>
-                </div>
-            </div>
-        </div>
+          <div class="tech-item">
+              <div class="tech-flip">
+                  <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/javascript/javascript-original.svg">
+                  <span class="tech-label">JavaScript</span>
+              </div>
+          </div>
 
-        <div class="tech-item">
-            <div class="tech-flip">
-                <div class="tech-front">
-                    <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/flask/flask-original.svg" class="tech-icon">
-                </div>
-                <div class="tech-back">
-                    <span>Flask</span>
-                </div>
-            </div>
-        </div>
+          <div class="tech-item">
+              <div class="tech-flip">
+                  <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/flask/flask-original.svg">
+                  <span class="tech-label">Flask</span>
+              </div>
+          </div>
 
-        <div class="tech-item">
-            <div class="tech-flip">
-                <div class="tech-front">
-                    <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/react/react-original.svg" class="tech-icon">
-                </div>
-                <div class="tech-back">
-                    <span>React</span>
-                </div>
-            </div>
-        </div>
+          <div class="tech-item">
+              <div class="tech-flip">
+                  <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/react/react-original.svg">
+                  <span class="tech-label">React</span>
+              </div>
+          </div>
 
-        <div class="tech-item">
-            <div class="tech-flip">
-                <div class="tech-front">
-                    <img src="https://upload.wikimedia.org/wikipedia/commons/9/93/Amazon_Web_Services_Logo.svg" class="tech-icon">
-                </div>
-                <div class="tech-back">
-                    <span>AWS</span>
-                </div>
-            </div>
-        </div>
+          <div class="tech-item">
+              <div class="tech-flip">
+                  <img src="https://upload.wikimedia.org/wikipedia/commons/9/93/Amazon_Web_Services_Logo.svg">
+                  <span class="tech-label">AWS</span>
+              </div>
+          </div>
 
-        <div class="tech-item">
-            <div class="tech-flip">
-                <div class="tech-front">
-                    <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/docker/docker-original.svg" class="tech-icon">
-                </div>
-                <div class="tech-back">
-                    <span>Docker</span>
-                </div>
-            </div>
-        </div>
+          <div class="tech-item">
+              <div class="tech-flip">
+                  <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/docker/docker-original.svg">
+                  <span class="tech-label">Docker</span>
+              </div>
+          </div>
 
-        <!-- C++ -->
-        <div class="tech-item">
-          <div class="tech-flip">
-              <div class="tech-front">
+          <div class="tech-item">
+              <div class="tech-flip">
                   <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/cplusplus/cplusplus-original.svg">
+                  <span class="tech-label">C++</span>
               </div>
-              <div class="tech-back">C++</div>
           </div>
-      </div>
 
-      <!-- PostgreSQL -->
-      <div class="tech-item">
-          <div class="tech-flip">
-              <div class="tech-front">
+          <div class="tech-item">
+              <div class="tech-flip">
                   <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/postgresql/postgresql-original.svg">
+                  <span class="tech-label">PostgreSQL</span>
               </div>
-              <div class="tech-back">PostgreSQL</div>
           </div>
-      </div>
 
-      <!-- SQL (Generic) -->
-      <div class="tech-item">
-          <div class="tech-flip">
-              <div class="tech-front">
+          <div class="tech-item">
+              <div class="tech-flip">
                   <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/mysql/mysql-original.svg">
+                  <span class="tech-label">SQL</span>
               </div>
-              <div class="tech-back">SQL</div>
           </div>
       </div>
-    </div>
   </div>
 </section>
+
 
 
 <!-- 🔹 FEATURED PROJECTS -->
@@ -182,9 +149,9 @@
         <h2 class="fw-bold">Let's Connect</h2>
         <p class="text-muted">I'm open to new opportunities! Feel free to reach out.</p>
         <div class="d-flex justify-content-center gap-3 mt-3">
-            <a href="mailto:samuelj1316@gmail.com" class="btn btn-outline-primary rounded-pill px-4">Email Me</a>
-            <a href="https://linkedin.com/in/samueltjensen" class="btn btn-outline-dark rounded-pill px-4">LinkedIn</a>
-            <a href="https://github.com/samj1098" class="btn btn-outline-dark rounded-pill px-4">GitHub</a>
+            <a href="mailto:samuelj1316@gmail.com" class="btn btn-outline-primary rounded-pill px-4" target="_blank" rel="noopener noreferrer">Email Me</a>
+            <a href="https://linkedin.com/in/samueltjensen" class="btn btn-outline-dark rounded-pill px-4" target="_blank" rel="noopener noreferrer">LinkedIn</a>
+            <a href="https://github.com/samj1098" class="btn btn-outline-dark rounded-pill px-4" target="_blank" rel="noopener noreferrer">GitHub</a>
         </div>
     </div>
 </section>
