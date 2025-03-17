@@ -122,6 +122,7 @@ nav a {
     display: flex;
     flex-direction: column;
     justify-content: space-between;
+    margin: 10px 0px;
 }
 
 .project-card:hover {
