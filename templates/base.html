@@ -12,12 +12,12 @@
     <!-- Bootstrap JS -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 
-    <!-- Prevent Background from Reloading -->
+    <!-- AJAX Handling -->
     <script src="{{ url_for('static', filename='script.js') }}" defer></script>
 </head>
 <body class="bg-light">
 
-    <!-- Background Animation (Remains Persistent) -->
+    <!-- Background Animation -->
     <div class="absolute">
         <div class="absolute inset-0 justify-center">
             <div class="bg-shape1 bg-teal opacity-50 bg-blur" id="orb1"></div>
@@ -30,8 +30,7 @@
     <nav class="navbar bg-body-tertiary fixed-top">
         <div class="container-fluid">
             <a class="navbar-brand" href="#">My Portfolio</a>
-
-            <button class="navbar-toggler" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasNavbar" aria-controls="offcanvasNavbar">
+            <button class="navbar-toggler" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasNavbar">
                 <span class="navbar-toggler-icon"></span>
             </button>
 
@@ -40,31 +39,23 @@
                     <h5 class="offcanvas-title">Menu</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="offcanvas"></button>
                 </div>
-
                 <div class="offcanvas-body">
                     <ul class="navbar-nav justify-content-end flex-grow-1 pe-3">
                         <li class="nav-item"><a class="nav-link ajax-link" href="/">Home</a></li>
                         <li class="nav-item"><a class="nav-link ajax-link" href="/projects">Portfolio</a></li>
                         <li class="nav-item"><a class="nav-link ajax-link" href="/about">About</a></li>
                         <li class="nav-item"><a class="nav-link ajax-link" href="/contact">Contact</a></li>
-
-                        <li class="nav-item dropdown">
-                            <a class="nav-link dropdown-toggle" href="#" data-bs-toggle="dropdown">Socials</a>
-                            <ul class="dropdown-menu">
-                                <li><a class="dropdown-item" href="https://github.com/yourgithub" target="_blank">GitHub</a></li>
-                                <li><a class="dropdown-item" href="https://linkedin.com/in/yourlinkedin" target="_blank">LinkedIn</a></li>
-                                <li><a class="dropdown-item" href="https://twitter.com/yourtwitter" target="_blank">Twitter</a></li>
-                            </ul>
-                        </li>
                     </ul>
                 </div>
             </div>
         </div>
     </nav>
 
-    <!-- Page Content (Only this part will change) -->
+    <!-- Main Content: Ensure home content is loaded initially -->
     <div id="main-content" class="container mt-5">
-        {% block content %}{% endblock %}
+        {% block content %}
+            {% include 'index.html' %}  <!-- ✅ Loads home page content by default -->
+        {% endblock %}
     </div>
 
 </body>

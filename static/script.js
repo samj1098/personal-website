@@ -1,18 +1,18 @@
 document.addEventListener("DOMContentLoaded", function () {
-    // Prevent background from restarting
+    // ✅ Prevent background animation from restarting
     if (!window.orbInitialized) {
         window.orbInitialized = true;
         console.log("Background animation initialized!");
     }
 
-    // AJAX Navigation
+    // ✅ Handle AJAX Navigation for Navbar Links
     document.querySelectorAll('.ajax-link').forEach(link => {
         link.addEventListener('click', function (event) {
-            event.preventDefault();  // Prevent full page reload
+            event.preventDefault(); // Prevent full page reload
 
-            let url = this.getAttribute("href"); // Get target URL
+            let url = this.getAttribute("href");
 
-            fetch(url, { headers: { "X-Requested-With": "XMLHttpRequest" } })  // Fetch new page content
+            fetch(url, { headers: { "X-Requested-With": "XMLHttpRequest" } })
                 .then(response => response.text())
                 .then(html => {
                     let parser = new DOMParser();
@@ -22,18 +22,24 @@ document.addEventListener("DOMContentLoaded", function () {
                     document.querySelector("#main-content").innerHTML = newContent; // Replace content
                     window.history.pushState(null, "", url); // Update browser URL
 
-                    // Close offcanvas menu
+                    // ✅ Close the offcanvas menu
                     let offcanvasElement = document.querySelector('.offcanvas');
                     let offcanvasInstance = bootstrap.Offcanvas.getInstance(offcanvasElement);
                     if (offcanvasInstance) {
-                        offcanvasInstance.hide(); // Hide the sidebar menu
+                        offcanvasInstance.hide();
+                    }
+
+                    // ✅ Force-remove grey overlay
+                    let backdrop = document.querySelector('.offcanvas-backdrop');
+                    if (backdrop) {
+                        backdrop.remove();  // Manually remove Bootstrap's offcanvas backdrop
                     }
                 })
                 .catch(error => console.error("Error:", error));
         });
     });
 
-    // Handle browser back/forward navigation
+    // ✅ Handle browser back/forward navigation
     window.onpopstate = function () {
         location.reload();
     };
