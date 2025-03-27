@@ -3,45 +3,55 @@
 {% block title %}Register{% endblock %}
 
 {% block content %}
-<h2>Register</h2>
+<div class="form-wrapper">
+    <form onsubmit="handleLogin(event)">
+        <div class="test-container">
+            <h2 style="margin-bottom: 20px;">📝 Register</h2>
+          
+            <form onsubmit="handleRegister(event)" style="display: flex; flex-direction: column; gap: 15px;">
+              <input type="text" name="username" placeholder="Choose a username" required style="padding: 12px; border-radius: 10px; border: 1px solid #ccc;">
+              <input type="password" name="password" placeholder="Create a password" required style="padding: 12px; border-radius: 10px; border: 1px solid #ccc;">
+              <button type="submit" class="btn" style="background-color: #000; color: white;">Register</button>
+            </form>
+          </div>
+    </form>
+  </div>
+  
 
-<form onsubmit="handleRegister(event)">
-  <label>Username:</label>
-  <input type="text" name="username" required>
-
-  <label>Password:</label>
-  <input type="password" name="password" required>
-
-  <button type="submit">Register</button>
-</form>
-
-<p id="error-message" style="color: red;"></p>
 
 <script>
-  async function handleRegister(event) {
+    async function handleRegister(event) {
     event.preventDefault();
+
     const username = document.querySelector('[name="username"]').value;
     const password = document.querySelector('[name="password"]').value;
+    const errorDiv = document.getElementById("registerError");
 
-    const res = await fetch("https://your-backend.com/auth/register", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json"
-      },
-      body: JSON.stringify({ username, password })
-    });
+    try {
+      const res = await fetch("http://localhost:4000/auth/register", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify({ username, password })
+      });
 
-    if (res.ok) {
-      window.location.href = "/task-manager/login";
-    } else {
       const data = await res.json();
-      document.getElementById("error-message").textContent =
-        data.message || "User already exists. Please log in.";
 
-      setTimeout(() => {
-        document.getElementById("error-message").textContent = "";
-      }, 3000);
+      if (res.ok) {
+        // ✅ No alert — just redirect
+        window.location.href = "/task-manager/task-manager-login";
+      } else {
+        // ❌ Display error from server
+        errorDiv.textContent = data.message || "Registration failed.";
+        errorDiv.style.display = "block";
+      }
+    } catch (err) {
+      errorDiv.textContent = "Server error. Please try again.";
+      errorDiv.style.display = "block";
     }
   }
-</script>
+  
+    document.querySelector('form').addEventListener('submit', handleRegister);
+  </script>  
 {% endblock %}

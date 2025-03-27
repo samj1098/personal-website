@@ -1,11 +1,12 @@
 const express = require('express');
 const cors = require('cors');
 const { Pool } = require('pg');
-require('dotenv').config();  // Load .env
+require('dotenv').config(); // Load environment variables
 
 const app = express();
 const port = 4000;
 
+// Middleware
 app.use(cors());
 app.use(express.json());
 
@@ -18,41 +19,22 @@ const db = new Pool({
   port: process.env.PGPORT
 });
 
+// Make db pool available globally (optional but helpful)
+module.exports = db;
+
 // Test route
 app.get('/', (req, res) => {
   res.send('Task Manager API is live!');
 });
+
+// Routes
+const authRoutes = require('./routes/authRoutes');
+app.use('/auth', authRoutes);
 
 // Start server
 app.listen(port, () => {
   console.log(`Server is running at http://localhost:${port}`);
 });
 
-// Register a new user
-app.post('/auth/register', async (req, res) => {
-    const { username, password } = req.body;
-  
-    try {
-      // Check if the user already exists
-      const existingUser = await db.query(
-        'SELECT * FROM users WHERE username = $1',
-        [username]
-      );
-  
-      if (existingUser.rows.length > 0) {
-        return res.status(400).json({ message: 'User already exists' });
-      }
-  
-      // Create the new user
-      await db.query(
-        'INSERT INTO users (username, password) VALUES ($1, $2)',
-        [username, password]
-      );
-  
-      res.status(201).json({ message: 'User registered successfully' });
-    } catch (error) {
-      console.error('Register error:', error);
-      res.status(500).json({ message: 'Server error' });
-    }
-  });
-  
+const taskRoutes = require('./routes/taskRoutes');
+app.use('/tasks', taskRoutes);
