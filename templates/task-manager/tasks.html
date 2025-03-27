@@ -4,164 +4,122 @@
 
 {% block content %}
 <div class="form-wrapper">
-  <div class="test-container">
-    <h2 style="margin-bottom: 20px;">📝 Your Task List</h2>
+    <div class="test-container">
+        <h2 style="margin-bottom: 20px;">Your Task List</h2>
 
-    <form onsubmit="handleAddTask(event)" style="display: flex; flex-direction: column; gap: 10px; margin-bottom: 20px;">
-      <input type="text" id="newTask" placeholder="Enter new task..." required style="padding: 10px; border-radius: 10px; border: 1px solid #ccc;">
-      <button type="submit" class="btn" style="background-color: #000; color: white;">Add Task</button>
-    </form>
+        <form onsubmit="handleAddTask(event)" style="display: flex; flex-direction: column; gap: 10px; margin-bottom: 20px;">
+            <input type="text" id="newTask" placeholder="Enter new task..." required style="padding: 10px; border-radius: 10px; border: 1px solid #ccc;">
+            <button type="submit" class="btn" style="background-color: #000; color: white;">Add Task</button>
+        </form>
 
-    <ul id="taskList" style="list-style: none; padding: 0; text-align: left;"></ul>
+        <ul id="taskList" style="list-style: none; padding: 0;"></ul>
 
-    <button onclick="logout()" class="btn" style="background-color: #ff3b30; color: white; margin-top: 20px;">
-      Logout
-    </button>
-  </div>
+        <button onclick="logout()" class="btn" style="background-color: #ff3b30; color: white; margin-top: 20px;">
+            Logout
+        </button>
+    </div>
 </div>
 
 <script>
-  const token = localStorage.getItem("token");
+const token = localStorage.getItem("token");
+const backendUrl = "http://task-manager-backend-env.us-west-2.elasticbeanstalk.com";
 
-  function fetchTasks() {
-  fetch("http://localhost:4000/tasks", {
-    headers: {
-      Authorization: `Bearer ${token}`
-    }
-  })
-  .then(res => res.json())
-  .then(data => {
+async function fetchTasks() {
+    const res = await fetch(`${backendUrl}/tasks`, {
+        headers: { Authorization: `Bearer ${token}` }
+    });
+
     const taskList = document.getElementById("taskList");
     taskList.innerHTML = "";
 
-    data.forEach(task => {
-      const li = document.createElement("li");
-      li.id = `task-${task.id}`;
-      li.style.cssText = `
-        display: flex;
-        align-items: center;
-        justify-content: space-between;
-        background: #fff;
-        border-radius: 12px;
-        padding: 10px 15px;
-        margin-bottom: 10px;
-        box-shadow: 0 2px 6px rgba(0,0,0,0.1);
-      `;
+    if (res.ok) {
+        const data = await res.json();
+        data.forEach(task => {
+            const li = document.createElement("li");
+            li.style.display = "flex";
+            li.style.alignItems = "center";
+            li.style.justifyContent = "space-between";
+            li.style.padding = "8px";
 
-      const span = document.createElement("span");
-      span.textContent = task.title;
-      span.style.flex = "1";
-      span.style.textAlign = "left";
-
-      const actions = document.createElement("div");
-      actions.style.display = "flex";
-      actions.style.gap = "10px";
-
-      const editBtn = document.createElement("button");
-      editBtn.innerHTML = "✏️";
-      editBtn.onclick = () => editTask(task.id, task.title);
-      editBtn.style.cssText = `
-        padding: 6px 10px;
-        background: #007aff;
-        color: white;
-        border: none;
-        border-radius: 8px;
-        cursor: pointer;
-      `;
-
-      const deleteBtn = document.createElement("button");
-      deleteBtn.innerHTML = "Delete";
-      deleteBtn.onclick = () => deleteTask(task.id);
-      deleteBtn.style.cssText = `
-        padding: 6px 10px;
-        background: #ff3b30;
-        color: white;
-        border: none;
-        border-radius: 8px;
-        cursor: pointer;
-      `;
-
-      actions.appendChild(editBtn);
-      actions.appendChild(deleteBtn);
-      li.appendChild(span);
-      li.appendChild(actions);
-      taskList.appendChild(li);
-    });
-  });
+            li.innerHTML = `
+                <span>${task.title}</span>
+                <div style="display:flex; gap:10px;">
+                    <button onclick="startEditTask(${task.id}, '${task.title}')">✏️</button>
+                    <button onclick="deleteTask(${task.id})">🗑️</button>
+                </div>
+            `;
+            taskList.appendChild(li);
+        });
+    }
 }
 
-
-
-  async function handleAddTask(event) {
+async function handleAddTask(event) {
     event.preventDefault();
     const taskTitle = document.getElementById("newTask").value;
 
-    const res = await fetch("http://localhost:4000/tasks", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: `Bearer ${token}`
-      },
-      body: JSON.stringify({ title: taskTitle })
+    const res = await fetch(`${backendUrl}/tasks`, {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`
+        },
+        body: JSON.stringify({ title: taskTitle })
     });
 
     if (res.ok) {
-      document.getElementById("newTask").value = "";
-      fetchTasks();
+        document.getElementById("newTask").value = "";
+        fetchTasks();
     } else {
-      alert("Error adding task");
+        alert("Error adding task");
     }
-  }
+}
 
-  async function deleteTask(taskId) {
-    const res = await fetch(`http://localhost:4000/tasks/${taskId}`, {
-      method: 'DELETE',
-      headers: {
-        Authorization: `Bearer ${token}`
-      }
+async function deleteTask(taskId) {
+    const res = await fetch(`${backendUrl}/tasks/${taskId}`, {
+        method: 'DELETE',
+        headers: { Authorization: `Bearer ${token}` }
     });
 
     if (res.ok) {
-      fetchTasks();
+        fetchTasks();
     } else {
-      alert("Error deleting task");
+        alert("Error deleting task");
     }
-  }
-
-  function editTask(taskId, currentTitle) {
-  const li = document.getElementById(`task-${taskId}`);
-  li.innerHTML = `
-    <input type="text" id="editInput-${taskId}" value="${currentTitle}" style="padding: 6px; border-radius: 8px; border: 1px solid #ccc;">
-    <button onclick="saveTask(${taskId})" class="btn">💾 Save</button>
-    <button onclick="fetchTasks()" class="btn" style="background-color: #ccc;">✖ Cancel</button>
-  `;
 }
 
-async function saveTask(taskId) {
-  const newTitle = document.getElementById(`editInput-${taskId}`).value;
-
-  const res = await fetch(`http://localhost:4000/tasks/${taskId}`, {
-    method: 'PUT',
-    headers: {
-      "Content-Type": "application/json",
-      Authorization: `Bearer ${token}`
-    },
-    body: JSON.stringify({ title: newTitle })
-  });
-
-  if (res.ok) {
-    fetchTasks(); // reload tasks with update
-  } else {
-    alert("Error saving task");
-  }
+function startEditTask(taskId, currentTitle) {
+    const taskListItem = document.querySelector(`li button[onclick^="startEditTask(${taskId}"]`).parentElement.parentElement;
+    taskListItem.innerHTML = `
+        <input type="text" value="${currentTitle}" id="edit-${taskId}" style="padding:5px; flex-grow:1;">
+        <button onclick="submitEditTask(${taskId})">Save</button>
+        <button onclick="fetchTasks()">Cancel</button>
+    `;
 }
 
+async function submitEditTask(taskId) {
+    const newTitle = document.getElementById(`edit-${taskId}`).value;
 
-  function logout() {
+    const res = await fetch(`${backendUrl}/tasks/${taskId}`, {
+        method: 'PUT',
+        headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`
+        },
+        body: JSON.stringify({ title: newTitle })
+    });
+
+    if (res.ok) {
+        fetchTasks();
+    } else {
+        alert("Error editing task");
+    }
+}
+
+function logout() {
     localStorage.removeItem("token");
     window.location.href = "/task-manager/task-manager-login";
-  }
+}
 
-  window.onload = fetchTasks;
+window.onload = fetchTasks;
 </script>
 {% endblock %}
