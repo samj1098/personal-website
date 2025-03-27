@@ -1,0 +1,47 @@
+{% extends 'base.html' %}
+
+{% block title %}Register{% endblock %}
+
+{% block content %}
+<h2>Register</h2>
+
+<form onsubmit="handleRegister(event)">
+  <label>Username:</label>
+  <input type="text" name="username" required>
+
+  <label>Password:</label>
+  <input type="password" name="password" required>
+
+  <button type="submit">Register</button>
+</form>
+
+<p id="error-message" style="color: red;"></p>
+
+<script>
+  async function handleRegister(event) {
+    event.preventDefault();
+    const username = document.querySelector('[name="username"]').value;
+    const password = document.querySelector('[name="password"]').value;
+
+    const res = await fetch("https://your-backend.com/auth/register", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify({ username, password })
+    });
+
+    if (res.ok) {
+      window.location.href = "/task-manager/login";
+    } else {
+      const data = await res.json();
+      document.getElementById("error-message").textContent =
+        data.message || "User already exists. Please log in.";
+
+      setTimeout(() => {
+        document.getElementById("error-message").textContent = "";
+      }, 3000);
+    }
+  }
+</script>
+{% endblock %}
