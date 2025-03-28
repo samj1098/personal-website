@@ -21,105 +21,105 @@
 </div>
 
 <script>
-const token = localStorage.getItem("token");
-const backendUrl = "http://task-manager-backend-env.us-west-2.elasticbeanstalk.com";
-
-async function fetchTasks() {
-    const res = await fetch(`${backendUrl}/tasks`, {
-        headers: { Authorization: `Bearer ${token}` }
-    });
-
-    const taskList = document.getElementById("taskList");
-    taskList.innerHTML = "";
-
-    if (res.ok) {
-        const data = await res.json();
-        data.forEach(task => {
-            const li = document.createElement("li");
-            li.style.display = "flex";
-            li.style.alignItems = "center";
-            li.style.justifyContent = "space-between";
-            li.style.padding = "8px";
-
-            li.innerHTML = `
-                <span>${task.description}</span>
-                <div style="display:flex; gap:10px;">
-                    <button onclick="startEditTask(${task.id}, '${task.description.replace(/'/g, "\\'")}')">✏️</button>
-                    <button onclick="deleteTask(${task.id})">🗑️</button>
-                </div>
-            `;
-            taskList.appendChild(li);
+    const token = localStorage.getItem("token");
+    const backendUrl = "http://task-manager-backend-env.us-west-2.elasticbeanstalk.com";
+    
+    async function fetchTasks() {
+        const res = await fetch(`${backendUrl}/tasks`, {
+            headers: { Authorization: `Bearer ${token}` }
         });
+    
+        const taskList = document.getElementById("taskList");
+        taskList.innerHTML = "";
+    
+        if (res.ok) {
+            const data = await res.json();
+            data.forEach(task => {
+                const li = document.createElement("li");
+                li.style.display = "flex";
+                li.style.alignItems = "center";
+                li.style.justifyContent = "space-between";
+                li.style.padding = "8px";
+    
+                li.innerHTML = `
+                    <span>${task.content}</span>
+                    <div style="display:flex; gap:10px;">
+                        <button onclick="startEditTask(${task.id}, '${task.content.replace(/'/g, "\\'")}')">✏️</button>
+                        <button onclick="deleteTask(${task.id})">🗑️</button>
+                    </div>
+                `;
+                taskList.appendChild(li);
+            });
+        }
     }
-}
-
-async function handleAddTask(event) {
-    event.preventDefault();
-    const taskDescription = document.getElementById("newTask").value;
-
-    const res = await fetch(`${backendUrl}/tasks`, {
-        method: "POST",
-        headers: {
-            "Content-Type": "application/json",
-            Authorization: `Bearer ${token}`
-        },
-        body: JSON.stringify({ description: taskDescription })
-    });
-
-    if (res.ok) {
-        document.getElementById("newTask").value = "";
-        fetchTasks();
-    } else {
-        alert("Error adding task");
+    
+    async function handleAddTask(event) {
+        event.preventDefault();
+        const taskContent = document.getElementById("newTask").value;
+    
+        const res = await fetch(`${backendUrl}/tasks`, {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+                Authorization: `Bearer ${token}`
+            },
+            body: JSON.stringify({ content: taskContent })
+        });
+    
+        if (res.ok) {
+            document.getElementById("newTask").value = "";
+            fetchTasks();
+        } else {
+            alert("Error adding task");
+        }
     }
-}
-
-async function deleteTask(taskId) {
-    const res = await fetch(`${backendUrl}/tasks/${taskId}`, {
-        method: 'DELETE',
-        headers: { Authorization: `Bearer ${token}` }
-    });
-
-    if (res.ok) {
-        fetchTasks();
-    } else {
-        alert("Error deleting task");
+    
+    async function deleteTask(taskId) {
+        const res = await fetch(`${backendUrl}/tasks/${taskId}`, {
+            method: 'DELETE',
+            headers: { Authorization: `Bearer ${token}` }
+        });
+    
+        if (res.ok) {
+            fetchTasks();
+        } else {
+            alert("Error deleting task");
+        }
     }
-}
-
-function startEditTask(taskId, currentDescription) {
-    const taskListItem = document.querySelector(`li button[onclick^="startEditTask(${taskId}"]`).parentElement.parentElement;
-    taskListItem.innerHTML = `
-        <input type="text" value="${currentDescription}" id="edit-${taskId}" style="padding:5px; flex-grow:1;">
-        <button onclick="submitEditTask(${taskId})">Save</button>
-        <button onclick="fetchTasks()">Cancel</button>
-    `;
-}
-
-async function submitEditTask(taskId) {
-    const newDescription = document.getElementById(`edit-${taskId}`).value;
-
-    const res = await fetch(`${backendUrl}/tasks/${taskId}`, {
-        method: 'PUT',
-        headers: {
-            "Content-Type": "application/json",
-            Authorization: `Bearer ${token}`
-        },
-        body: JSON.stringify({ description: newDescription })
-    });
-
-    if (res.ok) {
-        fetchTasks();
-    } else {
-        alert("Error editing task");
+    
+    function startEditTask(taskId, currentContent) {
+        const taskListItem = document.querySelector(`li button[onclick^="startEditTask(${taskId}"]`).parentElement.parentElement;
+        taskListItem.innerHTML = `
+            <input type="text" value="${currentContent}" id="edit-${taskId}" style="padding:5px; flex-grow:1;">
+            <button onclick="submitEditTask(${taskId})">Save</button>
+            <button onclick="fetchTasks()">Cancel</button>
+        `;
     }
-}
-
-function logout() {
-    localStorage.removeItem("token");
-    window.location.href = "/task-manager/task-manager-login";
-}
-
-window.onload = fetchTasks;
-</script>
+    
+    async function submitEditTask(taskId) {
+        const newContent = document.getElementById(`edit-${taskId}`).value;
+    
+        const res = await fetch(`${backendUrl}/tasks/${taskId}`, {
+            method: 'PUT',
+            headers: {
+                "Content-Type": "application/json",
+                Authorization: `Bearer ${token}`
+            },
+            body: JSON.stringify({ content: newContent })
+        });
+    
+        if (res.ok) {
+            fetchTasks();
+        } else {
+            alert("Error editing task");
+        }
+    }
+    
+    function logout() {
+        localStorage.removeItem("token");
+        window.location.href = "/task-manager/task-manager-login";
+    }
+    
+    window.onload = fetchTasks;
+    </script>    
 {% endblock %}
