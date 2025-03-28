@@ -4,7 +4,7 @@ const { Pool } = require('pg');
 require('dotenv').config(); // Load environment variables
 
 const app = express();
-const port = 4000;
+const port = process.env.PORT || 8080;
 
 // Middleware
 app.use(cors());
