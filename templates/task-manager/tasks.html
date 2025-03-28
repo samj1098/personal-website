@@ -7,10 +7,8 @@
     <div class="test-container">
         <h2 style="margin-bottom: 20px;">Your Task List</h2>
 
-        <!-- Form for adding task title + description -->
         <form onsubmit="handleAddTask(event)" style="display: flex; flex-direction: column; gap: 10px; margin-bottom: 20px;">
-            <input type="text" id="newTask" placeholder="Enter task title..." required style="padding: 10px; border-radius: 10px; border: 1px solid #ccc;">
-            <input type="text" id="newDescription" placeholder="Enter task description..." required style="padding: 10px; border-radius: 10px; border: 1px solid #ccc;">
+            <input type="text" id="newTask" placeholder="Enter task..." required style="padding: 10px; border-radius: 10px; border: 1px solid #ccc;">
             <button type="submit" class="btn" style="background-color: #000; color: white;">Add Task</button>
         </form>
 
@@ -44,12 +42,9 @@ async function fetchTasks() {
             li.style.padding = "8px";
 
             li.innerHTML = `
-                <div>
-                    <strong>${task.title}</strong><br>
-                    <small>${task.description}</small>
-                </div>
+                <span>${task.description}</span>
                 <div style="display:flex; gap:10px;">
-                    <button onclick="startEditTask(${task.id}, '${task.title}', '${task.description}')">✏️</button>
+                    <button onclick="startEditTask(${task.id}, '${task.description.replace(/'/g, "\\'")}')">✏️</button>
                     <button onclick="deleteTask(${task.id})">🗑️</button>
                 </div>
             `;
@@ -60,8 +55,7 @@ async function fetchTasks() {
 
 async function handleAddTask(event) {
     event.preventDefault();
-    const taskTitle = document.getElementById("newTask").value;
-    const taskDescription = document.getElementById("newDescription").value;
+    const taskDescription = document.getElementById("newTask").value;
 
     const res = await fetch(`${backendUrl}/tasks`, {
         method: "POST",
@@ -69,12 +63,11 @@ async function handleAddTask(event) {
             "Content-Type": "application/json",
             Authorization: `Bearer ${token}`
         },
-        body: JSON.stringify({ title: taskTitle, description: taskDescription })
+        body: JSON.stringify({ description: taskDescription })
     });
 
     if (res.ok) {
         document.getElementById("newTask").value = "";
-        document.getElementById("newDescription").value = "";
         fetchTasks();
     } else {
         alert("Error adding task");
@@ -94,19 +87,17 @@ async function deleteTask(taskId) {
     }
 }
 
-function startEditTask(taskId, currentTitle, currentDescription) {
+function startEditTask(taskId, currentDescription) {
     const taskListItem = document.querySelector(`li button[onclick^="startEditTask(${taskId}"]`).parentElement.parentElement;
     taskListItem.innerHTML = `
-        <input type="text" value="${currentTitle}" id="edit-title-${taskId}" style="padding:5px; margin-bottom: 5px;">
-        <input type="text" value="${currentDescription}" id="edit-desc-${taskId}" style="padding:5px;">
+        <input type="text" value="${currentDescription}" id="edit-${taskId}" style="padding:5px; flex-grow:1;">
         <button onclick="submitEditTask(${taskId})">Save</button>
         <button onclick="fetchTasks()">Cancel</button>
     `;
 }
 
 async function submitEditTask(taskId) {
-    const newTitle = document.getElementById(`edit-title-${taskId}`).value;
-    const newDescription = document.getElementById(`edit-desc-${taskId}`).value;
+    const newDescription = document.getElementById(`edit-${taskId}`).value;
 
     const res = await fetch(`${backendUrl}/tasks/${taskId}`, {
         method: 'PUT',
@@ -114,7 +105,7 @@ async function submitEditTask(taskId) {
             "Content-Type": "application/json",
             Authorization: `Bearer ${token}`
         },
-        body: JSON.stringify({ title: newTitle, description: newDescription })
+        body: JSON.stringify({ description: newDescription })
     });
 
     if (res.ok) {
