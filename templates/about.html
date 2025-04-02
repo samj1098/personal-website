@@ -1,12 +1,106 @@
 {% extends 'base.html' %}
-
-{% block title %}Home{% endblock %}
+{% block title %}About Me{% endblock %}
 
 {% block content %}
+<div class="about-me mt-5 pt-5">
+    <img src="{{ url_for('static', filename='images/profile-pic.png') }}" alt="Profile Picture" class="profile-picture mb-4">
+    <h1 class="text-center">More About Me</h1>
+
+    <section class="mb-4">
+        <p>
+            I'm a Junior at Arizona State University majoring in Computer Science, specializing in Software Engineering and Big Data. I'm currently planning on pursuing the 4+1 program to earn my Master's degree while completing my Bachelor's, although I have yet to reach the point where I need to apply yet (next semester). My coursework has included advanced algorithms, systems security, data structures, and full-stack web development.
+        </p>
+    </section>
+
+    <section class="mb-4">
+        <h3>Work Experience</h3>
+        <p>
+            Since 2019, I've worked as a <strong>Shift Lead at Starbucks</strong> in Scottsdale, AZ. In this role, I manage day-to-day store operations in collaboration with store and district leadership to drive performance and consistency in one of the region’s highest-volume stores.
+        </p>
+        <ul style="text-align: left;">
+            <li>Lead a team of 15–17 baristas to serve 180–200 customers per hour while maintaining operational excellence and efficiency.</li>
+            <li>Helped the store achieve 185% of Starbucks' weekly sales goals through role standardization and continuous optimization of team workflows.</li>
+            <li>Maintained an average drive-thru window time of 35–40 seconds (exceeding the 45-second benchmark).</li>
+            <li>Recognized as <strong>Partner of the Quarter</strong> for outstanding leadership, teamwork, and inclusivity — an award voted on by peers.</li>
+            <li>Trained and onboarded 15+ new baristas, building a cohesive and high-performing team during peak times.</li>
+        </ul>
+        <p>
+            I currently balance working 30 hours per week while pursuing a Computer Science degree full-time, demonstrating my strong time management and multitasking skills.
+        </p>
+    </section>
+
+    <section class="mb-4">
+        <h3>Extracurricular Activities</h3>
     
-    <div class="container mt-5">
-        <h1 class="text-center">About Me</h1>
-        <p class="text-center">I am a computer science student interested 
-in software development, cybersecurity, and AWS.</p>
-    </div>
+        <p>
+            From 2014 to 2023, I was a dedicated member and co-director of the <strong>Catfish Bay WaterSki Team</strong> in Sioux Falls, SD — a team of 45–55 athletes focused on high-level performance, community engagement, and outdoor recreation.
+        </p>
+        <ul style="text-align: left;">
+            <li>Co-led daily practice sessions and weekly 2-hour live water ski shows for public audiences during summer seasons.</li>
+            <li>Organized and led performances for annual regional competitions, representing the team at a high level.</li>
+            <li>Directed and mentored 10–15 children annually from local children’s homes, introducing them to waterskiing in a fun, supportive environment.</li>
+            <li>Helped coordinate a week-long summer camp for 100+ kids, focusing on lake safety, tubing, ziplining, fishing, and teamwork-building activities.</li>
+        </ul>
+        <p>
+            This experience taught me how to lead with confidence, foster community spirit, and handle logistics for large-scale events and youth programs.
+        </p>
+
+        <img src="{{ url_for('static', filename='images/cfb-waterski-team.png') }}" 
+        alt="Catfish Bay WaterSki Team" 
+        style="width: 50%; max-width: 700px; border-radius: 20px; box-shadow: 0 10px 30px rgba(0,0,0,0.1); margin-bottom: 20px;" 
+        class="img-fluid">
+
+    </section>
+    
+    
+    <section class="mb-4 d-flex align-items-center flex-wrap" style="gap: 30px; justify-content: space-between;">
+    
+        <div style="flex: 1 1 400px; min-width: 300px;">
+            <h3>Passion for Fitness</h3>
+            <p>
+                I'm a dedicated CrossFit athlete who thrives on physical and mental challenges. I've competed in the <strong>CrossFit Open</strong> multiple times and proudly ranked in the <strong>Top 75th Percentile of athletes</strong> worldwide — a reflection of my consistent training, competitive mindset, and drive to improve.
+            </p>
+            <p>
+                Training with the goal of qualifying for the <strong>CrossFit Games</strong> has taught me how to embrace discomfort, push through limits, and maintain discipline over long periods — qualities I bring into my academic and professional life. Whether it's perfecting a muscle-up or debugging a tricky algorithm, I enjoy tackling tough problems head-on.
+            </p>
+        </div>
+    
+        <div style="flex: 1 1 300px; display: flex; justify-content: center;">
+            <img src="{{ url_for('static', filename='images/crossfit-pic.png') }}" 
+                 alt="CrossFit Training" 
+                 style="max-width: 50%; height: auto; border-radius: 20px; box-shadow: 0 10px 30px rgba(0,0,0,0.1);">
+        </div>
+    </section>
+     
+
+    <section class="mb-4">
+        <h3>Cloud and Security Enthusiast</h3>
+        <p>
+            I’m passionate about cloud infrastructure and recently earned my <strong>AWS Certified Developer – Associate</strong> certification. I’ve been diving into cloud-native technologies to understand how modern systems scale, operate securely, and stay resilient.
+        </p>
+        <p>
+            In fact, the website you're viewing right now is my <strong>first real-world deployment on AWS</strong> — hosted using services like <strong>Elastic Beanstalk</strong> and <strong>RDS PostgreSQL</strong>. This project gave me hands-on experience setting up cloud environments, managing deployment pipelines, and using AWS tools like EC2, S3, and CloudWatch for logging and monitoring.
+        </p>
+        <p>
+            While I’m still early in my AWS journey, building and deploying this site from the ground up gave me valuable insight into how full-stack apps operate in the cloud. I'm excited to build more complex cloud-based projects and explore areas like serverless computing and infrastructure as code.
+        </p>
+
+        <img src="{{ url_for('static', filename='images/aws-dev.png') }}" 
+         alt="AWS Certified Developer Badge" 
+         style="width: 25%; max-width: 500px; border-radius: 20px; box-shadow: 0 10px 30px rgba(0,0,0,0.1); margin-bottom: 20px;" 
+         class="img-fluid">
+
+    </section>    
+
+    <section class="mb-4">
+        <h3>Hobbies & Interests</h3>
+        <p>
+            When I’m not coding or training, I enjoy hiking, tanning under the Arizona sun, and spending time outdoors. Whether it’s pushing limits in the gym or enjoying a peaceful trail, I’m always pursuing balance between productivity and personal wellness.
+        </p>
+    </section>
+
+    <section class="text-center mt-4">
+        <a href="/contact" class="btn btn-outline">Let’s Connect</a>
+    </section>
+</div>
 {% endblock %}

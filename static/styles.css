@@ -5,6 +5,8 @@ body {
     margin: 0;
     padding: 0;
     text-align: center;
+    padding-top: 50px;
+    padding-bottom: 75px;
 }
 
 body.no-scroll {
@@ -395,6 +397,18 @@ form .btn:hover {
     color: white;
 }
 
+.about-me ul {
+    list-style: disc;
+    padding-left: 1.5rem;
+}
 
+
+.about-me li {
+    margin-bottom: 0.5rem;
+}
+
+.about-me {
+    margin-top: 120px; 
+}
 
 
