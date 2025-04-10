@@ -48,5 +48,9 @@ def task_manager_register():
 def task_manager_tasks():
     return render_page("task-manager/tasks.html")
 
+@application.route("/certifications")
+def certifications():
+    return render_page("certifications.html")
+
 if __name__ == "__main__":
     application.run(host='0.0.0.0', port=8080)

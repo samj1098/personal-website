@@ -411,4 +411,67 @@ form .btn:hover {
     margin-top: 120px; 
 }
 
+.certifications-container {
+    max-width: 960px;
+    margin: 0 auto;
+    padding: 2rem;
+  }
+  
+  .cert-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 1.5rem;
+    margin-top: 1rem;
+  }
+  
+  .cert-card {
+    background: #f5f5f5;
+    padding: 1rem;
+    border-radius: 1rem;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+    text-align: center;
+  }
+  
+  .cert-card h2 {
+    margin-bottom: 0.5rem;
+    font-size: 1.25rem;
+  }
+  
+  .cert-card p {
+    margin: 0.25rem 0;
+  }
+  
+  .cert-card a {
+    display: inline-block;
+    margin-top: 0.5rem;
+    color: #007bff;
+    font-weight: bold;
+    text-decoration: none;
+  }
+  
+  .cert-card a:hover {
+    text-decoration: underline;
+  }
+  
+  .cert-subtext {
+    font-size: 1.1rem;
+    color: #333;
+    margin-bottom: 1rem;
+  }
+  
+  .btn-primary {
+    display: inline-block;
+    padding: 0.7rem 1.5rem;
+    background-color: #007bff;
+    color: #fff;
+    border-radius: 8px;
+    text-decoration: none;
+    font-weight: bold;
+    transition: background-color 0.2s ease;
+  }
+  
+  .btn-primary:hover {
+    background-color: #0056b3;
+  }
+  
 
