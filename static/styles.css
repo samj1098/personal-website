@@ -474,4 +474,62 @@ form .btn:hover {
     background-color: #0056b3;
   }
   
+  .tesla-section {
+    max-width: 900px;
+    margin: auto;
+    background: white;
+    border-radius: 20px;
+    padding: 40px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+  }
+
+  .tesla-section h1 {
+    font-size: 2rem;
+    margin-bottom: 1rem;
+  }
+
+  .tesla-section .btn {
+    background-color: #2563eb;
+    color: white;
+    padding: 12px 20px;
+    border: none;
+    border-radius: 30px;
+    font-size: 16px;
+    cursor: pointer;
+    margin-top: 20px;
+    transition: all 0.3s ease-in-out;
+  }
+
+  .tesla-section .btn:hover {
+    transform: scale(1.05);
+    background-color: #174fc9;
+  }
+
+  #output, #events {
+    margin-top: 30px;
+    text-align: left;
+  }
+
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+  }
+
+  th, td {
+    border: 1px solid #ddd;
+    padding: 10px;
+    text-align: center;
+  }
+
+  th {
+    background-color: #f8f8f8;
+    font-weight: 600;
+  }
+
+  .timestamp-note {
+    margin-top: 10px;
+    font-size: 14px;
+    color: #666;
+  }
 

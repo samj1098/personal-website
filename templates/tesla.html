@@ -1,0 +1,99 @@
+{% extends 'base.html' %}
+
+{% block title %}Tesla_Project{% endblock %}
+
+{% block content %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>My Tesla Dashboard</title>
+  <link rel="stylesheet" href="/static/styles.css">
+</head>
+<body>
+  <div class="tesla-section">
+    <h1>My Tesla Live Dashboard</h1>
+    <div id="output">Loading current Tesla status...</div>
+    <p id="last-updated" class="timestamp-note"></p>
+
+    <button class="btn" onclick="fetchRecentEvents()">🔍 Show Last 10 Logged Events</button>
+    <p>(Takes a few seconds to load)</p>
+    <div id="events"></div>
+  </div>
+
+  <script>
+    async function fetchTeslaStatus() {
+      try {
+        const res = await fetch("/api/status");
+        const data = await res.json();
+
+        const now = new Date();
+        const lastUpdated = new Date(data.last_updated);
+        const minutesAgo = Math.floor((now - lastUpdated) / 60000);
+
+        document.getElementById("output").innerHTML = `
+          <strong>Battery Level:</strong> ${data.battery_level}%<br>
+          <strong>Charging State:</strong> ${data.charging_state}<br>
+          <strong>Charge Rate:</strong> ${data.charge_rate} kW<br>
+          <strong>Estimated Range:</strong> ${data.estimated_range} miles
+        `;
+
+        document.getElementById("last-updated").innerText = 
+          `This is the most current data, last updated ${minutesAgo} minute(s) ago.`;
+
+      } catch (err) {
+        document.getElementById("output").innerText = "Error fetching Tesla status.";
+        console.error(err);
+      }
+    }
+
+    async function fetchRecentEvents() {
+      try {
+        const res = await fetch("/api/recent-events");
+        const events = await res.json();
+
+        if (events.length === 0) {
+          document.getElementById("events").innerText = "No recent events found.";
+          return;
+        }
+
+        let html = `
+          <p>These are the last 10 significant events, logged when something meaningful occurred (drive ended, charge completed, idle drain). Unlike live data, these are stored permanently in the database.</p>
+          <table>
+            <thead>
+              <tr>
+                <th>Timestamp</th>
+                <th>Battery Level</th>
+                <th>Energy Added (kWh)</th>
+                <th>Charging State</th>
+                <th>Event Type</th>
+              </tr>
+            </thead>
+            <tbody>
+        `;
+
+        events.forEach(event => {
+          html += `
+            <tr>
+              <td>${new Date(event.timestamp).toLocaleString()}</td>
+              <td>${event.battery_level}%</td>
+              <td>${event.energy_added}</td>
+              <td>${event.charging_state}</td>
+              <td>${event.event_type}</td>
+            </tr>
+          `;
+        });
+
+        html += `</tbody></table>`;
+        document.getElementById("events").innerHTML = html;
+      } catch (err) {
+        document.getElementById("events").innerText = "Error loading recent events.";
+        console.error(err);
+      }
+    }
+
+    fetchTeslaStatus();
+  </script>
+</body>
+</html>
+{% endblock %}

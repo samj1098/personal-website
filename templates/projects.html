@@ -1,11 +1,60 @@
 {% extends 'base.html' %}
 
-{% block title %}Home{% endblock %}
+{% block title %}Projects{% endblock %}
 
 {% block content %}
-<div class="container mt-5 pt-5">
-    <h1 class="text-center">My Coding Projects</h1>
+<div class="card mt-4 project-card">
+  <div class="card-body">
+    <h5 class="card-title">⚡ Smart Energy Dashboard for Tesla</h5>
+    <p class="card-text">
+      A Tesla-connected energy dashboard that tracks charge sessions, drives, and idle drain in real time — with upcoming AI predictions to understand charge and usage trends for helpful insite on when and for how long to charge for.
+    </p>
 
+    <div class="mb-3">
+      <p class="mb-1"><strong>Key Features</strong></p>
+      <ul style="text-align: left; list-style: none; padding-left: 0;">
+        <li>✅ <strong>Tesla API Integration:</strong> Live vehicle data via TeslaPy with secure token-based authentication</li>
+        <li>✅ <strong>Real-Time Snapshot:</strong> Auto-cached JSON updates when vehicle is online and JSON hasn't been updated for 5 minutes or more</li>
+        <li>✅ <strong>Event Logging:</strong> Charge, drive, and idle sessions logged to PostgreSQL with timestamps and classification with deduplication</li>
+        <li>✅ <strong>RESTful API:</strong> Flask routes for current status and recent event history</li>
+        <li>✅ <strong>Apple-Inspired UI:</strong> Beautiful frontend displaying live battery status and event history</li>
+        <li><strong>Coming Soon:</strong> Machine Learning and AI model to predict next charge window and required duration</li>
+      </ul>
+    </div>
+    <div class="mb-3">
+      <p class="mb-1"><strong>Skills Gained & Enhanced</strong></p>
+      <ul style="text-align: left; list-style: none; padding-left: 0;">
+        <li>✅ Learned how to work with the Tesla API using OAuth and refresh tokens</li>
+        <li>✅ Improved my ability to throttle data collection to avoid API rate limits</li>
+        <li>✅ Designed event-driven logging (detecting when charge/drive/idle happens)</li>
+        <li>✅ Built custom Flask API endpoints and integrated them into a frontend</li>
+        <li>✅ Strengthened my use of PostgreSQL and JSON caching for scalable data flow</li>
+        <li>✅ Reinforced Python file handling, timestamp conversion, and backend/frontend integration</li>
+      </ul>
+    </div>
+
+    <div class="mb-3">
+      <p class="mb-1"><strong>What This Project Taught Me</strong></p>
+      <ul style="text-align: left; list-style: none; padding-left: 0;">
+        <li>✅ The importance of minimizing unnecessary API calls for real-world services</li>
+        <li>✅ How to structure backend services to be both event-based and efficient</li>
+        <li>✅ How to expose backend logic to a web interface using APIs cleanly</li>
+        <li>✅ How to prepare a project foundation for future machine learning integration</li>
+      </ul>
+    </div>
+
+    <!-- Buttons (Fixed Layout) -->
+    <div class="d-flex justify-content-between align-items-center mt-3">
+      <div class="project-buttons">
+        <a href="https://github.com/samj1098/tesla_api_project" class="btn btn-outline-dark" target="_blank">View on GitHub</a>
+        <a href="/tesla" class="btn btn-primary">View Dashboard</a>
+      </div>
+      <span class="text-muted small">Spring 2025</span>
+    </div>
+  </div>
+</div>
+
+    
     <!-- Norm vs. Mut Test Project -->
     <div class="card mt-4 project-card">
         <div class="card-body">
@@ -52,7 +101,7 @@ NORM,200,300
                     <li>⚠️ <b>"NONUNIQUE"</b> is returned when there isn’t enough information to uniquely determine a "MUT" sample.</li>
                 </ul>
 
-                <h6>📌 Example Outputs</h6>
+                <h6>Example Outputs</h6>
 
                 <h6>✅ Case Where "MUT" Can Be Determined</h6>
                 <pre class="bg-light p-2 rounded">
@@ -110,11 +159,11 @@ NONUNIQUE
     <!-- Task Management App -->
 <div class="card mt-4 project-card">
     <div class="card-body">
-      <h5 class="card-title">🗂️ Task Management App</h5>
+      <h5 class="card-title">Task Management App</h5>
       <p class="card-text">A full-stack web app for managing personal to-do lists with secure user authentication and a PostgreSQL backend.</p>
   
       <div class="mb-3">
-        <p class="mb-1"><strong>🔑 Key Features</strong></p>
+        <p class="mb-1"><strong>Key Features</strong></p>
         <ul style="text-align: left; list-style: none; padding-left: 0;">
           <li>✅ <strong>User Authentication:</strong> Secure login and registration with JWTs and hashed passwords</li>
           <li>✅ <strong>Task Management:</strong> Add, edit, delete, and persist tasks per user</li>
@@ -123,13 +172,13 @@ NONUNIQUE
           <li>✅ <strong>Modern UI:</strong> Mobile-friendly, Apple-like design using HTML, CSS, and JavaScript</li>
           <li>✅ <strong>Cloud Hosted:</strong> Deployed using AWS RDS and integrated with Flask frontend</li>
         </ul>
+        <p>While I no longer have this project for testing as it is expensive to host the database full time on AWS. I have the code on github and I'd love for you to take a look!</p>
       </div>
   
       <!-- Buttons (Fixed Layout) -->
       <div class="d-flex justify-content-between align-items-center mt-3">
         <div class="project-buttons">
           <a href="https://github.com/samj1098/task-management" class="btn btn-outline-dark" target="_blank">View on GitHub</a>
-          <a href="/task-manager/task-manager-login" class="btn btn-primary">Test Project</a>
         </div>
         <span class="text-muted small">Spring 2025</span>
       </div>
