@@ -3,3 +3,11 @@
 .elasticbeanstalk/*
 !.elasticbeanstalk/*.cfg.yml
 !.elasticbeanstalk/*.global.yml
+venv/
+__pycache__/
+*.pyc
+.DS_Store
+*.zip
+*.log
+*.sqlite3
+*.db
