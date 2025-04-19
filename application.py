@@ -11,7 +11,6 @@ application = Flask(__name__)
 CORS(application)
 load_dotenv()
 
-
 application.config['TEMPLATES_AUTO_RELOAD'] = True
 
 
@@ -79,9 +78,9 @@ def tesla():
 @application.route("/api/status")
 def api_status():
     try:
-        filepath = "tesla_api_backend/cached_vehicle_data.json"
+        filepath = "/home/ec2-user/TeslaCharging/cached_vehicle_data.json"
 
-        with open("tesla_api_backend/cached_vehicle_data.json") as f:
+        with open(filepath) as f:
             data = json.load(f)
 
         charge = data["charge_state"]
@@ -100,7 +99,6 @@ def api_status():
         })
     except Exception as e:
         return jsonify({"error": str(e)}), 500
-
 
 @application.route("/api/recent-events")
 def api_recent_events():
