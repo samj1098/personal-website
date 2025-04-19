@@ -78,11 +78,28 @@ def tesla():
 @application.route("/api/status")
 def api_status():
     try:
-        response = requests.get(f"{WATCHER_SERVER}/api/status", timeout=5)
-        response.raise_for_status()
-        return jsonify(response.json())
+        filepath = "/home/ec2-user/TeslaCharging/cached_vehicle_data.json"
+
+        with open(filepath) as f:
+            data = json.load(f)
+
+        charge = data["charge_state"]
+
+        last_modified_timestamp = os.path.getmtime(filepath)
+        last_modified = datetime.fromtimestamp(last_modified_timestamp).isoformat()
+
+        return jsonify({
+            "battery_level": charge["battery_level"],
+            "charging_state": charge["charging_state"],
+            "charge_rate": charge["charge_rate"],
+            "energy_added": charge["charge_energy_added"],
+            "estimated_range": charge["battery_range"],
+            "is_live": True,
+            "last_updated": last_modified
+        })
     except Exception as e:
-        return jsonify({"error": f"Could not fetch from watcher server: {e}"}), 500
+        return jsonify({"error": str(e)}), 500
+
 
 @application.route("/api/recent-events")
 def api_recent_events():
