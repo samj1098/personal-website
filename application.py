@@ -11,6 +11,7 @@ application = Flask(__name__)
 CORS(application)
 load_dotenv()
 
+
 application.config['TEMPLATES_AUTO_RELOAD'] = True
 
 
