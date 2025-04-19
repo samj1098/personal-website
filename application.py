@@ -11,6 +11,7 @@ application = Flask(__name__)
 CORS(application)
 load_dotenv()
 
+WATCHER_SERVER = "http://18.224.68.167:8000"
 application.config['TEMPLATES_AUTO_RELOAD'] = True
 
 
@@ -74,31 +75,14 @@ def certifications():
 def tesla():
     return render_page("tesla.html")
 
-
 @application.route("/api/status")
 def api_status():
     try:
-        filepath = "/home/ec2-user/TeslaCharging/cached_vehicle_data.json"
-
-        with open(filepath) as f:
-            data = json.load(f)
-
-        charge = data["charge_state"]
-
-        last_modified_timestamp = os.path.getmtime(filepath)
-        last_modified = datetime.fromtimestamp(last_modified_timestamp).isoformat()
-
-        return jsonify({
-            "battery_level": charge["battery_level"],
-            "charging_state": charge["charging_state"],
-            "charge_rate": charge["charge_rate"],
-            "energy_added": charge["charge_energy_added"],
-            "estimated_range": charge["battery_range"],
-            "is_live": True,
-            "last_updated": last_modified
-        })
+        response = requests.get(f"{WATCHER_SERVER}/api/status", timeout=5)
+        response.raise_for_status()
+        return jsonify(response.json())
     except Exception as e:
-        return jsonify({"error": str(e)}), 500
+        return jsonify({"error": f"Could not fetch from watcher server: {e}"}), 500
 
 @application.route("/api/recent-events")
 def api_recent_events():
@@ -129,4 +113,4 @@ def api_recent_events():
 
 
 if __name__ == "__main__":
-    application.run(host='0.0.0.0', port=8000)
+    application.run(host='0.0.0.0', port=5000)
