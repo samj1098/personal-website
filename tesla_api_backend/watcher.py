@@ -1,6 +1,8 @@
 import time
 import os
+import json
 from datetime import datetime
+from flask import Flask, jsonify
 from tesla_client import get_vehicle_data, save_to_cache
 from db import log_charge_data
 
@@ -8,6 +10,30 @@ POLL_INTERVAL = 60  # seconds
 CACHE_PATH = "tesla_api_backend/cached_vehicle_data.json"
 CACHE_INTERVAL = 300  # 5 minutes
 
+app = Flask(__name__)
+CORS(app)
+
+@app.route("/api/status")
+def api_status():
+    try:
+        with open(CACHE_PATH) as f:
+            data = json.load(f)
+
+        charge = data["charge_state"]
+        last_modified = datetime.fromtimestamp(os.path.getmtime(CACHE_PATH)).isoformat()
+
+        return jsonify({
+            "battery_level": charge["battery_level"],
+            "charging_state": charge["charging_state"],
+            "charge_rate": charge["charge_rate"],
+            "energy_added": charge["charge_energy_added"],
+            "estimated_range": charge["battery_range"],
+            "is_live": True,
+            "last_updated": last_modified
+        })
+    except Exception as e:
+        return jsonify({"error": str(e)}), 500
+    
 def watch_for_charge_end():
     print("Watching for unplug events...")
     last_charging_state = None
@@ -82,4 +108,12 @@ def watch_for_charge_end():
             time.sleep(POLL_INTERVAL)
 
 if __name__ == "__main__":
-    watch_for_charge_end()
+    import threading
+
+    # Thread 1: background data collection
+    t1 = threading.Thread(target=watch_for_charge_end)
+    t1.daemon = True
+    t1.start()
+
+    # Thread 2: run Flask API server
+    app.run(host="0.0.0.0", port=8000)
