@@ -4,6 +4,7 @@ from projects_code.norm_mut_logic import run_norm_mut_test
 from tesla_api_backend.db import connect
 import json
 import os
+import requests
 from dotenv import load_dotenv
 from datetime import datetime
 
@@ -110,7 +111,19 @@ def api_recent_events():
         return jsonify(events)
     except Exception as e:
         return jsonify({"error": str(e)}), 500
+    
+@application.route("/pickles-mode5011321279")
+def pickles_mode_page():
+    return render_template("pickles-mode.html")
+
+@application.route("/trigger-pickles-mode", methods=["POST"])
+def trigger_pickles_mode():
+    try:
+        res = requests.post(f"{WATCHER_SERVER}/api/pickles-mode", timeout=10)
+        return jsonify(res.json())
+    except Exception as e:
+        return jsonify({"error": str(e)}), 500
 
 
 if __name__ == "__main__":
-    application.run(host='0.0.0.0', port=5000)
+    application.run(host='0.0.0.0', port=5050)
